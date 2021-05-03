@@ -70,56 +70,40 @@ def main():
 
     print("Clusters: " + str(clusters))
     clabel = []
-    '''
-    # make sure to add more colors if you want more clusters
-    colorList = ["red","green","yellow","blue"]
-    colors = {}
-    for i in range(int(k)):
-        colors["Cluster" + str(i)] = (colorList[i])
-
-    print(colors)
-    '''
-    for i in range(int(k)):
+    for i in range(len(content[1:])):
         clabel.append("Cluster " +str(i))
 
-    print(clabel)
-
         # Generate Data
-    num = 20
-    x, y = np.random.random((2, num))
-    labels = np.random.choice(['a', 'b', 'c'], num)
-    df = pd.DataFrame(dict(x=x, y=y, label=labels))
+    num = len(content[1:])
+    labels = np.random.choice(int(k), num)
 
-    groups = df.groupby('label')
+    # getting the x coordinates of all clusters
+    x_array = []
+    for c in clusters:
+        for i in c:
+            i = i.rstrip()
+            x_array.append(float(i.split(" ")[0]))
+
+    y_array = []
+    for c in clusters:
+        for i in c:
+            i = i.rstrip()
+            y_array.append(float(i.split(" ")[1]))
 
     # Plot
+    x_array = np.array(x_array)
+    y_array = np.array(y_array)
+    print("x_array: " + str(x_array))
+    print("y_array: "+ str(y_array))
+    print("Labels: " + str(labels))
+    df = pd.DataFrame(dict(x_array=x_array, y_array=y_array, label=labels))
+    groups = df.groupby('label')
     fig, ax = plt.subplots()
     ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
     for name, group in groups:
-        ax.plot(group.x, group.y, marker='o', linestyle='', ms=12, label=name)
+        ax.plot(group.x_array, group.y_array, marker='o', linestyle='', ms=12, label=name)
     ax.legend()
-
     plt.show()
-    '''
-    x_array = []
-    y_array = []
-    for p in content:
-        p = p.rstrip()
-        x_array.append(float(p.split(" ")[0]))
-        y_array.append(float(p.split(" ")[1]))
-
-    x_array = np.array(x_array)
-    y_array = np.array(y_array)
-    print(x_array)
-    print(y_array)
-
-    # Plot
-    plt.scatter(x_array, y_array, s=area, c=colors, alpha=0.5)
-    plt.title('Scatter plot pythonspot.com')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.show()
-    '''
     for i in range(len(resultCenter)):
         if i == len(resultCenter)-1:
             result += str(resultCenter[i])
