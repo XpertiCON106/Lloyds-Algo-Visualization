@@ -1,13 +1,44 @@
 import random
 import math
 
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 def main():
+    # Create data
+    N = 10
+    #x = np.random.rand(N)
+    #y = np.random.rand(N)
+    colors = (0,0,0)
+    area = np.pi*3
+
     with open("input") as file:
         content = file.readlines()
 
     k = content[0].split()[0]
     n = content[0].split()[1]
     pointLists = content[1:]
+
+    content = content[1:]
+    x_array = []
+    y_array = []
+    for p in content:
+        p = p.rstrip()
+        x_array.append(float(p.split(" ")[0]))
+        y_array.append(float(p.split(" ")[1]))
+
+    x_array = np.array(x_array)
+    y_array = np.array(y_array)
+    print(x_array)
+    print(y_array)
+
+    # Plot
+    plt.scatter(x_array, y_array, s=area, c=colors, alpha=0.5)
+    plt.title('Scatter plot pythonspot.com')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.show()
 
     clusters = []
     for i in range(int(k)):
